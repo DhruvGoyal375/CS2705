@@ -1,1 +1,1 @@
-Distributed Algorithms and Design (CS2705) Assignments
+# Distributed Algorithms and Design Assignments (CS2705)
