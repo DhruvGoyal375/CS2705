@@ -7,65 +7,67 @@ SIZE = 1024
 
 
 class RPCServer:
-
-    def __init__(self, host: str = '0.0.0.0', port: int = 8080) -> None:
+    def __init__(self, host: str = "0.0.0.0", port: int = 8000) -> None:
         self.host = host
         self.port = port
         self.address = (host, port)
         self._methods = {}
 
     def help(self) -> None:
-        print('REGISTERED METHODS:')
+        print("REGISTERED METHODS:")
         for method in self._methods.items():
-            print('\t', method)
+            print("\t", method)
 
-    '''
+    """
 
         registerFunction: pass a method to register all its methods and attributes so they can be used by the client via rpcs
             Arguments:
             instance -> a class object
-    '''
+    """
 
     def registerMethod(self, function) -> None:
         try:
             self._methods.update({function.__name__: function})
         except:
             raise Exception(
-                'A non method object has been passed into RPCServer.registerMethod(self, function)')
+                "A non method object has been passed into RPCServer.registerMethod(self, function)"
+            )
 
-    '''
+    """
         registerInstance: pass a instance of a class to register all its methods and attributes so they can be used by the client via rpcs
             Arguments:
             instance -> a class object
-    '''
+    """
 
     def registerInstance(self, instance=None) -> None:
         try:
             # Regestring the instance's methods
-            for functionName, function in inspect.getmembers(instance, predicate=inspect.ismethod):
-                if not functionName.startswith('__'):
+            for functionName, function in inspect.getmembers(
+                instance, predicate=inspect.ismethod
+            ):
+                if not functionName.startswith("__"):
                     self._methods.update({functionName: function})
         except:
             raise Exception(
-                'A non class object has been passed into RPCServer.registerInstance(self, instance)')
+                "A non class object has been passed into RPCServer.registerInstance(self, instance)"
+            )
 
-    '''
+    """
         handle: pass client connection and it's address to perform requests between client and server (recorded fucntions or) 
         Arguments:
         client -> 
-    '''
+    """
 
     def __handle__(self, client: socket.socket, address: tuple):
-        print(f'Managing requests from {address}.')
+        print(f"Managing requests from {address}.")
         while True:
             try:
-                functionName, args, kwargs = json.loads(
-                    client.recv(SIZE).decode())
+                functionName, args, kwargs = json.loads(client.recv(SIZE).decode())
             except:
-                print(f'! Client {address} disconnected.')
+                print(f"! Client {address} disconnected.")
                 break
             # Showing request Type
-            print(f'> {address} : {functionName}({args})')
+            print(f"> {address} : {functionName}({args})")
 
             try:
                 response = self._methods[functionName](*args, **kwargs)
@@ -75,7 +77,7 @@ class RPCServer:
             else:
                 client.sendall(json.dumps(response).encode())
 
-        print(f'Completed request from {address}.')
+        print(f"Completed request from {address}.")
         client.close()
 
     def run(self) -> None:
@@ -83,16 +85,15 @@ class RPCServer:
             sock.bind(self.address)
             sock.listen()
 
-            print(f'+ Server {self.address} running')
+            print(f"+ Server {self.address} running")
             while True:
                 try:
                     client, address = sock.accept()
 
-                    Thread(target=self.__handle__, args=[
-                           client, address]).start()
+                    Thread(target=self.__handle__, args=[client, address]).start()
 
                 except KeyboardInterrupt:
-                    print(f'- Server {self.address} interrupted')
+                    print(f"- Server {self.address} interrupted")
                     break
 
 

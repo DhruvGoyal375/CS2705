@@ -21,7 +21,8 @@ class TimeServer:
                 conn, addr = s.accept()
                 print(f"Connected by {addr}")
                 client_thread = threading.Thread(
-                    target=self.handle_client, args=(conn,))
+                    target=self.handle_client, args=(conn,)
+                )
                 client_thread.start()
 
     def handle_client(self, conn: socket.socket):
@@ -34,13 +35,14 @@ class TimeServer:
                 time_diff = client_time - self.time
                 self.clients.append((conn, time_diff))
 
-                if len(self.clients) >= 3:  # Wait for at least 3 clients before synchronizing
+                if len(self.clients) >= 3:
                     self.synchronize()
 
     def synchronize(self):
         total_diff = sum(diff for _, diff in self.clients)
-        average_offset = total_diff / \
-            (len(self.clients) + 1)  # +1 to include the server
+        average_offset = total_diff / (
+            len(self.clients) + 1
+        )  # +1 to include the server
 
         for conn, _ in self.clients:
             conn.sendall(str(average_offset).encode())

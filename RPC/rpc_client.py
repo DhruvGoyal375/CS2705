@@ -5,13 +5,13 @@ SIZE = 1024
 
 
 class RPCClient:
-    def __init__(self, host: str = 'localhost', port: int = 8080) -> None:
+    def __init__(self, host: str = "localhost", port: int = 8000) -> None:
         self.__sock = None
         self.__address = (host, port)
 
     def isConnected(self):
         try:
-            self.__sock.sendall(b'test')
+            self.__sock.sendall(b"test")
             self.__sock.recv(SIZE)
             return True
 
@@ -24,7 +24,7 @@ class RPCClient:
             self.__sock.connect(self.__address)
         except EOFError as e:
             print(e)
-            raise Exception('Client was not able to connect.')
+            raise Exception("Client was not able to connect.")
 
     def disconnect(self):
         try:
@@ -47,6 +47,7 @@ class RPCClient:
             self.__sock.close()
         except:
             pass
+
 
 if __name__ == "__main__":
     RPCClient(port=8000).connect()

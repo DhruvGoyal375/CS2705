@@ -48,8 +48,5 @@ if __name__ == "__main__":
     # List of nodes in the distributed system
     nodes = [node1, node2, node3, node4, node5]
 
-    # Simulate failure of current coordinator (Node 3)
-    node3.is_coordinator = False
-
     # Assume Node 3 detects coordinator failure and initiates election
     node3.initiate_election(nodes)

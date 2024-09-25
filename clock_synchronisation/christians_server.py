@@ -6,7 +6,7 @@ import threading
 
 
 def handle_client(connection, address):
-    print('Server connected to', address)
+    print("Server connected to", address)
 
     # Respond to the client with the server clock time
     connection.send(str(datetime.datetime.now()).encode())
@@ -22,7 +22,7 @@ def initiateClockServer():
     # Server port
     port = 8000
 
-    s.bind(('', port))
+    s.bind(("", port))
 
     # Start listening for client requests
     s.listen(5)
@@ -35,7 +35,8 @@ def initiateClockServer():
 
         # Spawn a new thread to handle the client request
         client_thread = threading.Thread(
-            target=handle_client, args=(connection, address))
+            target=handle_client, args=(connection, address)
+        )
 
         # Start the new thread
         client_thread.start()
@@ -45,7 +46,6 @@ def initiateClockServer():
 
 
 # Driver function
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     # Trigger the Clock Server
     initiateClockServer()

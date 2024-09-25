@@ -77,6 +77,6 @@ if __name__ == "__main__":
     m[4][0] = 0
     m[4][1] = -1  # Message received at e1(5) from e2(3)
     m[4][2] = 0
-
+    print(m)
     # Run Lamport's Logical Clock algorithm
-    lamportLogicalClock(e1, e2, m)
+    # lamportLogicalClock(e1, e2, m)

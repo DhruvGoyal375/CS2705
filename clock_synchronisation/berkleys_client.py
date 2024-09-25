@@ -1,7 +1,6 @@
 import socket
 import time
 import random
-import threading
 
 
 class TimeClient:
@@ -38,7 +37,8 @@ class TimeClient:
                     time.sleep(5)
             except ConnectionRefusedError:
                 print(
-                    f"Client {self.client_id} could not connect to the server. Is it running?")
+                    f"Client {self.client_id} could not connect to the server. Is it running?"
+                )
             except Exception as e:
                 print(f"Client {self.client_id} encountered an error: {e}")
 
