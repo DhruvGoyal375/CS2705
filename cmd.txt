@@ -1,0 +1,13 @@
+docker-compose up
+
+docker exec -it namenode /bin/bash
+
+hdfs dfs -mkdir -p /user/root
+
+hdfs dfs -ls /
+
+docker cp hadoop-mapreduce-examples-2.7.1-sources.jar namenode:/tmp/
+
+hdfs dfs -rm -r /user/root/output
+
+hdfs dfs -cat /user/root/output/part-r-00000
